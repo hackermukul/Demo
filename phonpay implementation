@@ -111,3 +111,68 @@ if ($response) {
 }
 
 ?>
+
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Payment extends CI_Controller {
+
+    public function __construct() {
+        parent::__construct();
+        $this->load->library('session');
+    }
+
+    public function index() {
+        $data['amount'] = 100;
+        $this->load->view('payment_form', $data);
+    }
+
+    public function process() {
+        $amount = $this->input->post('amount');
+
+        // PhonePe API credentials
+        $apiKey = 'your_api_key';
+        $merchantId = 'your_merchant_id';
+
+        // API URL
+        $url = 'https://www.phonepe.com/api/v1/payment/initiate';
+
+        // API request data
+        $data = [
+            'apiKey' => $apiKey,
+            'merchantId' => $merchantId,
+            'amount' => $amount,
+        ];
+
+        // API call using cURL
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        // Handle the API response
+        $responseData = json_decode($response, true);
+        if ($responseData['status'] == 'success') {
+            // Update the payment status in your database
+            // ...
+
+            // Redirect to success page
+            redirect('payment/success');
+        } else {
+            // Redirect to failure page
+            redirect('payment/failure');
+        }
+    }
+
+    public function success() {
+        $this->load->view('payment_success');
+    }
+
+    public function failure() {
+        $this->load->view('payment_failure');
+    }
+
+}
