@@ -1,178 +1,91 @@
+
 <?php
+if (isset($_POST['submit_form'])) {
+  $amount = $_POST['amountEnterByUsers'];
+  $data = array(
+      "merchantId" => "PGTESTPAYUAT",
+      "merchantTransactionId" => "MT785058104",
+      "merchantUserId" => "MUID123",
+      "amount" =>10000,
+      "redirectUrl" => "paymentsuccess_new.php",
+      "redirectMode" => "POST",
+      "callbackUrl" => "paymentsuccess_test.php",
+      "mobileNumber" => "9825454588",
+      "paymentInstrument" => array(
+          "type" => "PAY_PAGE"
+      )
+  );
+  // Convert the Payload to JSON and encode as Base64
+    $encode = json_encode($data);
+    $encoded = base64_encode($encode);
+    $salt_key = "099eb0cd-02cf-4e2a-8aca-3e6c6aff0399"; //test salt key
+    $salt_index = 1; //key index 1
+    $string = $encoded . "/pg/v1/pay" . $salt_key;
+    $sha256 = hash("sha256", $string);
+    $final_x_header = $sha256 . '###' . $salt_index;
 
-// Phone Pay API credentials
+   //X-VERIFY  - SHA256(base64 encoded payload + "/pg/v1/pay" + salt key) + ### + salt index
 
-$phone_pay_merchant_id = 'your_merchant_id';
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => "",
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => "POST",
+    CURLOPT_POSTFIELDS => json_encode(array(
+      'request' => $encoded
+    )),
+      CURLOPT_HTTPHEADER => array(
+        "Content-Type: application/json",
+          "X-VERIFY: " . $final_x_header,
+          "accept: application/json"
+      ),
+  ));
 
-$phone_pay_secret_key = 'your_secret_key';
+  $response = curl_exec($curl);
+  $err = curl_error($curl);
 
+  curl_close($curl);
 
-
-// Transaction details
-
-$amount = 100;
-
-$currency = 'INR';
-
-$transaction_id = uniqid();
-
-
-
-// Phone Pay API endpoint
-
-$phone_pay_url = 'https://api.phonepay.io/v1/charge';
-
-
-
-// Prepare the request payload
-
-$request_payload = [
-
-    'merchant_id' => $phone_pay_merchant_id,
-
-    'transaction_id' => $transaction_id,
-
-    'amount' => $amount,
-
-    'currency' => $currency
-
-];
-
-
-
-// Generate the request signature
-
-$signature = hash_hmac('sha256', json_encode($request_payload), $phone_pay_secret_key);
-
-
-
-// Add the signature to the request payload
-
-$request_payload['signature'] = $signature;
-
-
-
-// Send the request to Phone Pay API
-
-$ch = curl_init($phone_pay_url);
-
-curl_setopt($ch, CURLOPT_POST, true);
-
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request_payload));
-
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-
-    'Content-Type: application/json'
-
-]);
-
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-$response = curl_exec($ch);
-
-curl_close($ch);
-
-
-
-// Process the response from Phone Pay API
-
-if ($response) {
-
-    $response_payload = json_decode($response, true);
-
-    if ($response_payload['status'] == 'success') {
-
-        // Payment success
-
-        $transaction_reference = $response_payload['transaction_reference'];
-
-        // Save the transaction details to your database
-
-        // Redirect the user to a success page
-
+    if ($err) {
+        echo "Error #:" . $err;
     } else {
-
-        // Payment failed
-
-        $error_message = $response_payload['error_message'];
-
-        // Display the error message to the user
-
-    }
-
-} else {
-
-    // Error occurred while communicating with Phone Pay API
-
-    $error_message = 'Error occurred while communicating with Phone Pay API';
-
-    // Display the error message to the user
-
-}
-
-?>
-
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-class Payment extends CI_Controller {
-
-    public function __construct() {
-        parent::__construct();
-        $this->load->library('session');
-    }
-
-    public function index() {
-        $data['amount'] = 100;
-        $this->load->view('payment_form', $data);
-    }
-
-    public function process() {
-        $amount = $this->input->post('amount');
-
-        // PhonePe API credentials
-        $apiKey = 'your_api_key';
-        $merchantId = 'your_merchant_id';
-
-        // API URL
-        $url = 'https://www.phonepe.com/api/v1/payment/initiate';
-
-        // API request data
-        $data = [
-            'apiKey' => $apiKey,
-            'merchantId' => $merchantId,
-            'amount' => $amount,
-        ];
-
-        // API call using cURL
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        // Handle the API response
-        $responseData = json_decode($response, true);
-        if ($responseData['status'] == 'success') {
-            // Update the payment status in your database
-            // ...
-
-            // Redirect to success page
-            redirect('payment/success');
+        $res = json_decode($response);
+       
+        if ($res->code == 'PAYMENT_INITIATED') {
+            redirect($res->data->instrumentResponse->redirectInfo->url);
         } else {
-            // Redirect to failure page
-            redirect('payment/failure');
+            redirect('web/checkout');
         }
     }
 
-    public function success() {
-        $this->load->view('payment_success');
-    }
-
-    public function failure() {
-        $this->load->view('payment_failure');
-    }
+ 
 
 }
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phone Integration</title>
+</head>
+<body>
+  <br>
+  <center><h1>Phone Pay Integration </h1>
+  <br>
+  <hr>
+  <form action="#" method="post">
+    <label for="amountEnterByUsers">Enter Amount</label>
+    <input type="number" name="amountEnterByUsers" id="amountEnterByUsers">
+    <br><hr>
+    <button type="submit" name="submit_form">Pay Now</button>
+  </form>
+</center>
+
+</body>
+</html>
+
