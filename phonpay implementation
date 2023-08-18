@@ -10,7 +10,7 @@ if (isset($_POST['submit_form'])) {
       "redirectUrl" => "paymentsuccess_new.php",
       "redirectMode" => "POST",
       "callbackUrl" => "paymentsuccess_test.php",
-      "mobileNumber" => "9825454588",
+      "mobileNumber" => "6202627875",
       "paymentInstrument" => array(
           "type" => "PAY_PAGE"
       )
