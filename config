@@ -11,14 +11,14 @@
 	//echo 'ROOT : '.ROOT.'<br>';
 
 	//echo $_SERVER['DOCUMENT_ROOT'].'<br>';
-	//define("ROOT_DIR",$_SERVER['DOCUMENT_ROOT']."pratyaksh/");
+	//define("ROOT_DIR",$_SERVER['DOCUMENT_ROOT']."test1/");
 	//define("ROOT_DIR", $_SERVER['DOCUMENT_ROOT']."/");
 	define("ROOT_DIR",$_SERVER['DOCUMENT_ROOT']."/xampp/MARS/prat/");
 	//echo 'ROOT_DIR : '.ROOT_DIR.'<br>';
 
 	define('CLASSS',$_SERVER['DOCUMENT_ROOT']."/classes/");
 	//define('CLASSS', "/uniquesigma_dynamic/classes/");
-	//define('CLASSS',$_SERVER['DOCUMENT_ROOT']."/xampp/mukul/cd1/classes/");
+	//define('CLASSS',$_SERVER['DOCUMENT_ROOT']."/xampp/cwe/cd1/classes/");
 	//echo 'CLASSS : '.CLASSS.'<br>';
 
 	define("INCLUDE_DIR",ROOT_DIR."/includes/");
