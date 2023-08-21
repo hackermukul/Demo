@@ -1,0 +1,105 @@
+function upload_student_file($admin_user_id)
+     {	
+        // if(isset($_FILES['slider_upload']['name'])){
+           
+        //     $image= $_FILES['slider_upload'];
+        //     $fileSubName= 'slider_upload';
+        //     $uploadPath = "assets/uploads/student/";
+        //     $uploadPath1 = "assets/uploads/student/";
+        //     $allowed_types = 'gif|jpg|png|jpeg|jfif';
+        //     $course_banners = imageUploadWithWaterMarkHelper($image,$uploadPath,$allowed_types,$fileSubName,$uploadPath1);
+            
+        // }
+		// print_r($course_banners);
+		// exit;
+
+		$logo_file_name = "";
+		$count=0;
+		if(!empty($_FILES["file"]['name'])){
+			if (!is_dir('assets/uploads/student')) {
+				mkdir('./assets/uploads/student', 0777, TRUE);
+			}
+
+		    $file_title = $_POST['file_title'];
+			for($i=0 ; $i< count($_FILES["file"]['name']) ; $i++){
+				if(isset($_FILES["file"]['name'][$i]) && !empty($_FILES["file"]['name'][$i])){
+					$count++;
+					$timg_name = $_FILES['file']['name'][$i];
+					$temp_var = explode(".",strtolower($timg_name));
+					$timage_ext = end($temp_var);
+					$timage_name_new = 'studednt_'.$admin_user_id.'_'.$count.".".$timage_ext;
+					$img_data['title'] = $file_title[$i];
+					$img_data['student_id'] = $admin_user_id;
+					
+				
+					//$target = str_replace('.jpg','.JPEG',$timage_name_new);
+
+
+					 $dir = _uploaded_temp_files_;
+					 $new = _admin_files_;
+					 $name = 'AdminLTELogo.png';
+					 $newName = 'test.webp';
+					
+					// // Create and save
+					// $img = imagecreatefrompng($dir . $name);
+					 //imagepalettetotruecolor($img);
+					 //imagealphablending($img, true);
+					 //imagesavealpha($img, true);
+					 ///imagewebp($img, $dir . $newName, 100);
+					 //imagedestroy($img);
+				
+					//$imginsertStatus = $this->Common_Model->add_operation(array('table'=>'student_file' , 'data'=>$img_data));
+					move_uploaded_file ($_FILES['file']['tmp_name'][$i],"assets/uploads/student/".$timage_name_new);
+						$logo_file_name = $timage_name_new;
+					
+
+                    $newName=time().".webp";
+                    $dir = __category__;
+					$file = __category__.$timage_name_new;
+					if (!file_exists($file)) {
+						return false;
+					}
+					$file_type = exif_imagetype($file);
+					//Quality can be a value between 1-100.
+					$quality = 100;
+					//Create the webp image
+					if (function_exists('imagewebp')) {
+						switch ($file_type) {
+							case '1': //IMAGETYPE_GIF
+								$img = imagecreatefrompng($dir . $timage_name_new);
+								break;
+							case '2': //IMAGETYPE_JPEG
+								$img=imagecreatefromjpeg($dir . $timage_name_new);
+								break;
+							case '3': //IMAGETYPE_PNG
+								$img=imagecreatefromjpg($dir . $timage_name_new);
+									break;
+							case '6': // IMAGETYPE_BMP
+								$img = imagecreatefrombmp($file);
+								break;
+							case '15': //IMAGETYPE_Webp
+							return false;
+								break;
+							case '16': //IMAGETYPE_XBM
+								$img = imagecreatefromxbm($file);
+								break;
+							default:
+								return false;
+						}
+				    
+					imagepalettetotruecolor($img);
+					imagealphablending($img, true);
+					imagesavealpha($img, true);
+					imagewebp($img, $dir . $newName, $quality);
+					imagedestroy($img);
+					//delete initial uploaded png image
+
+					unlink($dir.$timage_name_new);
+                    $img_data['name'] = $newName;
+					$imginsertStatus = $this->Common_Model->add_operation(array('table'=>'student_file' , 'data'=>$img_data));
+					}
+					
+				}
+			}
+		}
+    }
