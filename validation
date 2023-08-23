@@ -1,0 +1,1155 @@
+<style type="text/css">
+   .card {
+   padding: 10px;
+   }
+   .input-group{
+   position: relative;
+   display: table;
+   border-collapse: separate;
+   }
+   .icon_title_box {
+   color: var(--primary);
+   position: relative;
+   display: inline-block;
+   }
+   .input-group-btn {
+   position: relative;
+   font-size: 0;
+   white-space: nowrap;
+   }
+   .input-group .form-control:first-child, .input-group-addon:first-child, .input-group-btn:first-child>.btn, .input-group-btn:first-child>.btn-group>.btn, .input-group-btn:first-child>.dropdown-toggle, .input-group-btn:last-child>.btn-group:not(:last-child)>.btn, .input-group-btn:last-child>.btn:not(:last-child):not(.dropdown-toggle) {
+   border-top-right-radius: 0;
+   border-bottom-right-radius: 0;
+   }
+   input[type=file].form-control {
+   height: auto !important;
+   }
+   .input-group .form-control, .input-group-addon, .input-group-btn {
+   display: table-cell;
+   }
+   .input-group .form-control {
+   position: relative;
+   z-index: 2;
+   float: left;
+   width: 100%;
+   margin-bottom: 0;
+   }
+   .form-control {
+   border-radius: 0;
+   box-shadow: none;
+   border-color: #d2d6de;
+   }
+   .form-control {
+   display: block;
+   width: 100%;
+   height: 34px !important;
+   padding: 6px 12px !important;
+   font-size: 14px !important;
+   line-height: 1.42857143;
+   color: #555;
+   background-color: #fff;
+   background-image: none;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+   }
+   .form-horizontal .label-wrapper {
+   display: table;
+   /*float: right;*/
+   min-height: 28px;
+   }
+   .input-group-addon, .input-group-btn {
+   width: 1%;
+   white-space: nowrap;
+   vertical-align: middle;
+   }
+   textarea.form-control {
+   height: auto !important;
+   }
+   ul.easytree-container li {
+   list-style-image: none;
+   list-style-position: outside;
+   list-style-type: none;
+   -moz-background-clip: border;
+   -moz-background-inline-policy: continuous;
+   -moz-background-origin: padding;
+   background-attachment: scroll;
+   background-color: transparent;
+   background-position: 0 0;
+   background-repeat: repeat-y;
+   background-image: none;
+   margin: 0;
+   padding: 1px 0 0 0;
+   }
+   #list li{
+   padding: 5px 10px;
+   list-style-type: none;
+   background: #ececec;
+   margin-left: 5px;
+   border-radius: 5px;
+   color: #000 !important;
+   font-size: 14px;
+   }
+   #list li::marker{
+   display: none;
+   }
+   #list li img{
+   /*padding-left: 20px;*/
+   }
+   .img-checkbox img{
+   width: 160px;
+   height: 120px;
+   object-fit: contain;
+   }
+   .table td, .table th {
+   padding: 0.75rem;
+   vertical-align: top;
+   border-top: 1px solid #dee2e6;
+   vertical-align: middle;
+   text-align: center;
+   }
+   .edit_button{
+   /* display: inline-block;*/
+   background-color: #0062cc!important;
+   border-color: #005cbf;
+   font-weight: 400;
+   color: #fff !important;
+   text-align: center;
+   vertical-align: middle;
+   cursor: pointer;
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+   background-color: transparent;
+   border: 1px solid transparent;
+   padding: 0.375rem 0.75rem;
+   font-size: 1rem;
+   line-height: 1.5;
+   border-radius: 0.25rem;
+   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+   }
+</style>
+<style type="text/css">
+   .admin-tab1 li {
+   padding: 12px 2px;
+   }
+   .admin-tab1 li a{
+   padding: 10px 15px;
+   color: #007bff;
+   border: 1px solid #ececec;
+   background: #ffffff;
+   font-weight: bold;
+   color: #057fa7;
+   font-size: 14px;
+   }
+   .admin-tab1 li >active{
+   background: red;
+   }
+   .box-title{
+   font-size: 20px;
+   font-weight: bold;
+   }
+   .tab-content{
+   padding: 20px;
+   background: #fff;
+   }
+   .admin-tab1 li a.active {
+   background: #057fa7;
+   color: #fff;
+   }
+   /*.nav-tabs {
+   border-bottom: 0px solid #dee2e6 !important; 
+   }*/
+   .tabb{
+   padding: 10px 10px 0;
+   }
+   .btn-primary {
+   color: #fff;
+   background-color: #007bff;
+   border-color: #007bff;
+   box-shadow: none;
+   font-size: 14px !important;
+   }
+   .control-label {
+   font-size: 15px !important;
+   font-weight: 700 !important;
+   }
+   #demo1_menu ul li{
+   list-style-type: none;
+   }
+   #demo1_menu ul li{
+   font-size: 14px;
+   font-weight: bold;
+   color: #000;
+   }
+   #demo1_menu ul li a{
+   font-weight: normal;
+   color: #000;
+   }
+   .fa-folder{
+   color: yellow
+   }
+   /*.fa-file{
+   color: white;
+   }*/
+</style>
+<?php
+   $page_module_name = "Student";
+   ?>
+<?php
+   $id=0;
+   $joining_date_input=date('d-m-Y');
+   $termination_date_input='';
+   $student_firstname=$course_id=$admition_date=$father_name=$student_contact=$subject_id=$student_email=$name=$student_dob=$show_password=$student_address=$roll_number=$registration_no=$admition_session=$pincode="";
+   $admin_user_id=0;
+   $country_id=0;
+   $state_id=0;
+   $city_id=0;
+   $user_role_id=0;
+   $designation_id=0;
+   $data_view=$approval_access=0;
+   $status=1;
+   $record_action = "Add New Record";
+   $selected_user_role = array();
+   $selected_company = array();
+   if(!empty($list_data))
+   {
+   	$record_action = "Update";
+   	$id = $list_data->id;
+   	$student_firstname = $list_data->student_firstname;
+   	$father_name = $list_data->father_name;
+   	
+   	$subject_id = $list_data->subject_id;
+   	$student_contact = $list_data->student_contact;
+   	$status = $list_data->status;
+   	$country_id = $list_data->country_id;
+   	$state_id = $list_data->state_id;
+   	$city_id = $list_data->city_id;
+   	$admition_session = $list_data->admition_session;
+   	$roll_number = $list_data->roll_number;
+   
+   	$student_dob = $list_data->student_dob;
+   	$student_email = $list_data->student_email;
+   	$pincode = $list_data->pincode;
+   	
+   	$course_id = $list_data->course_id;
+   	$show_password = $list_data->show_password;
+   	$student_address = $list_data->student_address;
+   	$admition_date =$list_data->admition_date;
+   	$registration_no = $list_data->registration_no;
+   
+   	if(!empty($list_data->termination_date) && $list_data->termination_date != '0000-00-00' && $list_data->termination_date != '01-01-1970' && $list_data->termination_date != '1970-01-01')
+   		$termination_date_input = $list_data->termination_date;
+   
+   	else
+   		$termination_date_input = '';
+   
+   
+   	if(!empty($list_data->roles))
+   	{
+   		foreach($list_data->roles as $role)
+   		{
+   			$selected_user_role[] = $role->user_role_id;
+   			$selected_company[] = $role->company_profile_id;
+   		}
+   	}
+   }
+  $date =(date('Y')-2).date('-m-d');
+  
+
+   ?>
+<!-- /.navbar -->
+<!-- Main Sidebar Container -->
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+   <!-- Content Header (Page header) -->
+   <div class="content-header">
+      <div class="container-fluid">
+         <div class="row mb-2">
+            <div class="col-sm-6">
+               <h1 class="m-0 text-dark"><small><?=$page_module_name?> </small></h1>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6">
+               <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="<?=MAINSITE_Admin."wam"?>">Home</a></li>
+                  <li class="breadcrumb-item"><a href="<?=MAINSITE_Admin.$user_access->class_name."/".$user_access->function_name?>"><?=$user_access->name?> List</a></li>
+                  <?php if(!empty($list_data)){ ?>
+                  <li class="breadcrumb-item"><a href="<?=MAINSITE_Admin.$user_access->class_name."/view/".$id?>">View</a></li>
+                  <?php } ?>
+                  <li class="breadcrumb-item"><?=$record_action?></li>
+               </ol>
+            </div>
+            <!-- /.col -->
+         </div>
+         <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+   </div>
+   <!-- /.content-header -->
+   <!-- Main content -->
+   <section class="content">
+      <div class="row">
+         <div class="col-12">
+            <div class="card">
+               <div class="card-header">
+                  <h3 class="card-title"><?=$name?> <small><?=$record_action?></small></h3>
+               </div>
+               <!-- /.card-header -->
+               <?php
+                  if($user_access->view_module==1 || true)	{
+                  ?>
+               <?=$this->session->flashdata('alert_message'); ?>
+               <div class="card-body">
+                  <?php echo form_open(MAINSITE_Admin."$user_access->class_name/DoEdit", array('method' => 'post', 'id' => 'ptype_list_form' , "name"=>"ptype_list_form", 'style' => '', 'class' => 'form-horizontal', 'role' => 'form', 'enctype' => 'multipart/form-data')); ?>
+                  <input type="hidden" name="id" id="" value="<?=$id?>" />
+                  <input type="hidden" name="approval_access" value="0">
+                  <input type="hidden" name="redirect_type" id="redirect_type" value="" />
+                  <div class="row">
+                     <div class="col-lg-3 col-md-4 col-sm-6">
+					 <?php
+						$attributes = array('class'=>'form-label', 'for'=>'Name','style'=>'font-weight:700px;');
+						echo form_label('Student Name', 'name', $attributes);
+						echo " <label style='color:#f00;font-size: 22px;margin-top: 3px;font-weight: 700;'><div data-title='The name of the Product.' class='ico-help icon_title_box'> &nbsp;<i class='fa fa-question-circle'></i></div>
+							<span class='required'>*</span>
+						</label>";
+							?>
+                        <div class="col-sm-12">
+						<?php
+                              $value = set_value('student_firstname');
+                                      if(empty($value)){$value = $student_firstname;}
+                                    $attributes = array(
+                              'name'  => 'student_firstname',
+                              'id'  => 'student_firstname',
+                              'value' => $value ,
+                              'placeholder'=>'Student Name',
+                              'autofocus' => 'autofocus',
+                              'class' => 'form-control form-control-sm',
+                              'type' => 'text'
+                              
+                              );
+                              echo form_input($attributes);?>
+                           <span>
+                           <?php echo form_error('student_firstname', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+                     <div class="col-sm-3">
+					 <label class="control-label col-sm-8" for="Name">
+                                      Student Father Name
+						<div data-title="Father Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+						<span class="required">*</span>
+					  </label>
+                        <?php
+                           ?>
+                        <div class="form-group">
+                           <?php
+                              $value = set_value('father_name');
+                              				if(empty($value)){$value = $father_name;}
+                
+                              			$attributes = array(
+                              'name'  => 'father_name',
+                              'id'  => 'father_name',
+							  'placeholder'=>'Father Name',
+                              'autofocus' => 'autofocus',
+							  'value'=>$value,
+                              'class' => 'form-control form-control-sm',
+                              'type' => 'text',
+                              );
+                              echo form_input($attributes);?>
+                           <span>
+                           <?php echo form_error('father_name', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+                     <div class="col-sm-3">
+					 <label class="control-label col-sm-11" for="Name">
+                                      Student Contact Namber
+						<div data-title="Student Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+						<span class="required">*</span>
+					  </label>
+                        <?php
+                           ?>
+                        <div class="form-group">
+                           <?php
+                              $value = set_value('student_contact');
+                              				if(empty($value)){$value = $student_contact;}
+                              
+                              			$attributes = array(
+                              'name'  => 'student_contact',
+                              'id'  => 'student_contact',
+							  'placeholder'=>'Student Conatct Number',
+                              'autofocus' => 'autofocus',
+							  'value'=> $value,
+                              'class' => 'form-control form-control-sm',
+                              'type' => 'number',
+                              );
+                              echo form_input($attributes);?>
+                           <span>
+                           <?php echo form_error('student_contact', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+					 <div class="col-sm-3">
+						<label class="control-label col-sm-11" for="Name">
+										Student Email 
+							<div data-title="Student Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+							<span class="required">*</span>
+						</label>
+                        <?php
+                           ?>
+                        <div class="form-group">
+                           <?php
+                              $value = set_value('student_email');
+                                      if(empty($value)){$value = $student_email;}
+                                    $attributes = array(
+                              'name'  => 'student_email',
+                              'id'  => 'student_email',
+                              'value' => $value,
+                              'placeholder' => "Student Email ",
+                              'autofocus' => 'autofocus',
+                              'class' => 'form-control form-control-sm',
+                              'type' => 'text',
+                              'required' => 'required'
+                              );
+                              echo form_input($attributes);?>
+                           <span>
+                           <?php echo form_error('student_email', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+                     <div class="col-sm-3">
+						<label class="control-label col-sm-11" for="Name">
+										Student DOB
+							<div data-title="Student Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+							<span class="required">*</span>
+						</label>
+                       
+                        <div class="form-group">
+                           <?php
+                              $value = set_value('student_dob');
+                              
+                                      if(empty($value)){$value = $student_dob;}
+                                    $attributes = array(
+                              'name'  => 'student_dob',
+                              'id'  => 'student_dob',
+                              'value' => $value,
+                              'max'=>$date,
+                              'autofocus' => 'autofocus',
+                              'class' => 'form-control form-control-sm',
+                              'type' => 'date',
+                              
+                              );
+                              echo form_input($attributes);?>
+                           <span>
+                           <?php echo form_error('student_dob', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+                    
+                     <div class="col-sm-3">
+					 <label class="control-label col-sm-11" for="Name">
+										Password
+							<div data-title="Student Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+							<span class="required">*</span>
+						</label>
+                        <?php
+                           ?>
+                        <div class="form-group">
+                           <?php
+                              $value = set_value('show_password');
+                                      if(empty($value)){$value = $show_password;}
+                                    $attributes = array(
+                              'name'  => 'show_password',
+                              'id'  => 'show_password',
+                              'value' => $value,
+                              'placeholder' => "Password ",
+                              'autofocus' => 'autofocus',
+                              'class' => 'form-control form-control-sm',
+                              'type' => 'password',
+                              'required' => 'required'
+                              );
+                              echo form_input($attributes);?>
+                           <span>
+							<p style="font-size:8px;color:red;">at least 1 number and at least 1 character</p>
+                           <?php echo form_error('password', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+                     <div class="col-sm-3">
+					 <label class="control-label col-sm-11" for="Name">
+					 Admition Session 
+							<div data-title="Student Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+							<span class="required">*</span>
+						</label>
+                        <div class="form-group">
+						<?php
+                              $value = set_value('admition_session');
+                              				if(empty($value)){$value = $admition_session;}
+                              				
+                              			$attributes = array(
+                              'name'  => 'admition_session',
+                              'id'  => 'admition_session',
+                              'required' => 'required',
+                              'placeholder' => "admition session",
+                              'autofocus' => 'autofocus',
+                              'class' => 'form-control form-control-sm select2',
+                              'type' => 'text',
+                              
+                              );
+                              echo form_dropdown($attributes,$session_data,$value);?>
+                           <span>
+                           <?php echo form_error('fax_no', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+                     <div class="col-sm-3">
+					 <label class="control-label col-sm-11" for="Name">
+					          Select Subject 
+							<div data-title="Student Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+							<span class="required">*</span>
+						</label>
+                        <?php
+                           ?>
+                        <div class="form-group">
+						<?php
+                              $value = set_value('subject_id');
+                              				if(empty($value)){$value = $subject_id;}
+                              				
+                              			$attributes = array(
+                              'name'  => 'subject_id',
+                              'id'  => 'subject_id',
+                              'required' => 'required',
+                              'placeholder' => "Subject",
+                              'autofocus' => 'autofocus',
+                              'class' => 'form-control form-control-sm select2',
+                              'type' => 'text',
+                              
+                              );
+                              echo form_dropdown($attributes,$subject_data,$value);?>
+                           <span>
+                           <?php echo form_error('subject_id', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+					 <div class="col-sm-3">
+					 <label class="control-label col-sm-11" for="Name">
+					          Select Course  
+							<div data-title="Student Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+							<span class="required">*</span>
+						</label>
+                        <?php
+                           ?>
+                        <div class="form-group">
+						<?php
+                              $value = set_value('course_id');
+                              				if(empty($value)){$value = $course_id;}
+                              				
+                              			$attributes = array(
+                              'name'  => 'course_id',
+                              'id'  => 'course_id',
+                              'required' => 'required',
+                              'placeholder' => "Subject",
+                              'autofocus' => 'autofocus',
+                              'class' => 'form-control form-control-sm select2',
+                              'type' => 'text',
+                              
+                              );
+                              echo form_dropdown($attributes,$courses_data,$value);?>
+                           <span>
+                           <?php echo form_error('course_id', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+					 <div class="col-sm-3">
+					 <label class="control-label col-sm-11" for="Name">
+					 Roll Number
+							<div data-title="Student Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+							<span class="required">*</span>
+						</label>
+                        <?php
+                           ?>
+                        <div class="form-group">
+                           <?php
+                              $value = set_value('roll_number');
+                              				if(empty($value)){$value = $roll_number;}
+                              			$attributes = array(
+                              'name'  => 'roll_number',
+                              'id'  => 'roll_number',
+                              'value' => $value,
+                              'placeholder' => "roll number",
+                              'autofocus' => 'autofocus',
+                              'class' => 'form-control form-control-sm',
+                              'type' => 'text',
+                              'required' => 'required'
+                              );
+                              echo form_input($attributes);?>
+                           <span>
+                           <?php echo form_error('roll_number', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+					 <div class="col-sm-3">
+					 <label class="control-label col-sm-11" for="Name">
+					 Registration No 
+							<div data-title="Student Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+							<span class="required">*</span>
+						</label>
+                        <?php
+                           ?>
+                        <div class="form-group">
+                           <?php
+                              $value = set_value('registration_no');
+                              				if(empty($value)){$value = $registration_no;}
+                              			$attributes = array(
+                              'name'  => 'registration_no',
+                              'id'  => 'registration_no',
+                              'value' => $value,
+                              'placeholder' => "Registration No",
+                              'autofocus' => 'autofocus',
+                              'class' => 'form-control form-control-sm',
+                              'type' => 'text',
+                              'required' => 'required'
+                              );
+                              echo form_input($attributes);?>
+                           <span>
+                           <?php echo form_error('registration_no', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+					 <div class="col-sm-3">
+					 <label class="control-label col-sm-11" for="Name">
+					 Admition Date
+							<div data-title="Student Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+							<span class="required">*</span>
+						</label>
+                        <?php
+                           ?>
+                        <div class="form-group">
+                           <?php
+                              $value = set_value('admition_date');
+                              				if(empty($value)){$value = $admition_date;}
+                              			$attributes = array(
+                              'name'  => 'admition_date',
+                              'id'  => 'admition_date',
+                              'value' => $value,
+                              'placeholder' => "admition_date",
+                              'autofocus' => 'autofocus',
+                              'class' => 'form-control form-control-sm',
+                              'type' => 'date',
+                              'required' => 'required'
+                              );
+                              echo form_input($attributes);?>
+                           <span>
+                           <?php echo form_error('admition_date', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+
+					 <div class="col-sm-3">
+					 <label class="control-label col-sm-11" for="Name">
+					 Pincode
+							<div data-title="Student Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+							<span class="required">*</span>
+						</label>
+                        <?php
+                           ?>
+                        <div class="form-group">
+                           <?php
+                              $value = set_value('pincode');
+                              				if(empty($value)){$value = $pincode;}
+                              			$attributes = array(
+                              'name'  => 'pincode',
+                              'id'  => 'pincode',
+                              'value' => $value,
+                              'placeholder' => "Pincode",
+                              'autofocus' => 'autofocus',
+                              'class' => 'form-control form-control-sm',
+                              'type' => 'text',
+                              'required' => 'required'
+                              );
+                              echo form_input($attributes);?>
+                           <span>
+                           <?php echo form_error('pincode', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+                     <div class="col-sm-3">
+					 <label class="control-label col-sm-11" for="Name">
+					 Country
+							<div data-title="Student Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+							<span class="required">*</span>
+						</label>
+                        <?php
+                           ?>
+                        <div class="form-group">
+                           <?php
+                              $value = set_value('country_id');
+                              				if(empty($value)){$value = $country_id;}
+                              				$js = 'onChange="getState(this.value ,0)"';
+                              			$attributes = array(
+                              'name'  => 'country_id',
+                              'id'  => 'country_id',
+                              'required' => 'required',
+                              'placeholder' => "City",
+                              'autofocus' => 'autofocus',
+                              'class' => 'form-control form-control-sm select2',
+                              'type' => 'text',
+                              
+                              );
+                              echo form_dropdown($attributes,$country,$value,$js);?>
+                           <span>
+                           <?php echo form_error('country_id', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+                     <div class="col-sm-3">
+					 <label class="control-label col-sm-11" for="Name">
+					 State 
+							<div data-title="Student Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+							<span class="required">*</span>
+						</label>
+                        <?php
+                           ?>
+                        <div class="form-group">
+                           <?php
+                              $value = set_value('state_id');
+                              				if(empty($value)){$value = 0;}
+                              						$js = 'onChange="getCity(this.value ,0)"';
+                              			$attributes = array(
+                              'name'  => 'state_id',
+                              'id'  => 'state_id',
+                              'required' => 'required',
+                              'placeholder' => "City",
+                              'autofocus' => 'autofocus',
+                              'class' => 'form-control form-control-sm select2',
+                              'type' => 'text',
+                              
+                              );
+                              echo form_dropdown($attributes,$state,$value,$js);?>
+                           <span>
+                           <?php echo form_error('state_id', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+                     <div class="col-sm-3">
+					 <label class="control-label col-sm-11" for="Name">
+					 City
+							<div data-title="Student Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+							<span class="required">*</span>
+						</label>
+                        <?php
+                           ?>
+                        <div class="form-group">
+                           <?php
+                              $value = set_value('city_id');
+                              				if(empty($value)){$value = 0;}
+                              			$attributes = array(
+                              'name'  => 'city_id',
+                              'id'  => 'city_id',
+                              'required' => 'required',
+                              'placeholder' => "City",
+                              'autofocus' => 'autofocus',
+                              'class' => 'form-control form-control-sm select2',
+                              'type' => 'text',
+                              
+                              );
+                              echo form_dropdown($attributes,$city,$value);?>
+                           <span>
+                           <?php echo form_error('city_id', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+                     <div class="col-sm-12">
+                        <label for="inputEmail3" class="label_content text-right mt-2">Student Address </label>
+                        <span style='color:#f00;font-size: 22px;margin-top: 3px;'>*</span>
+                        <?php
+                           ?>
+                        <div class="form-group">
+						<?php
+                                          $value = set_value('student_address');
+                                                      if(empty($value)){$value = $student_address;}
+                                                   $attributes = array(
+                                          'name'  => 'student_address',
+                                          'id'  => 'student_address',
+                                          'value' => $value,
+                                          'placeholder' => "student address",
+                                          'autofocus' => 'autofocus',
+										  'class' => 'search_textbox ckeditor',
+										  'style'=> 'width: 580px; height: 200px'
+                                          );
+                                          echo form_textarea($attributes);?>
+                           <span>
+                           <?php echo form_error('student_address', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                    
+                    
+                  </div>
+                  <div class="row">
+                     <div class="col-sm-6">
+                        <div class="card-body py-0 px-2" >
+                           <table class="table table-sm">
+                              <thead>
+                                 <tr>
+                                    <th>#</th>
+                                    <th width="55%"><label class="control-label col-sm-10" for="Name">
+                                     Photo Title
+						<div data-title="Father Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+						<span class="required">*</span></th>
+                                    <th><label class="control-label col-sm-12" for="Name">
+										Photo
+						<div data-title="Father Name." class="ico-help icon_title_box"><i class="fa fa-question-circle"></i></div>
+						<span class="required">*</span></th>
+                                    <th></th>
+                                 </tr>
+                              </thead>
+                              <tbody class="RFQDetailBody">
+                              </tbody>
+                              <tfoot>
+                                 <tr>
+                                    <td colspan="5"><button type="button" onclick='addNewRFQDeatilLine(0)' class="btn btn-block btn-default">Add New Line</button>
+                                    <td>
+                                 </tr>
+                              </tfoot>
+                           </table>
+                           <?php if(!empty($list_data->files)){ ?>
+                           <div class="card-body p-0 " style="width:90% !important">
+                              <table class="table table-sm">
+                                 <thead>
+                                    <tr>
+                                       <th colspan="2" style="padding: 10px 5px;"><a data-target="#uploadImg" data-toggle="collapse" class="collapsed uploadImgClick">Uploaded Files <span class="bg-primary fa fa-chevron-down" ></span></a></th>
+                                    </tr>
+                                 </thead>
+                                 <tbody class="collapse" id="uploadImg">
+                                    <?php foreach($list_data->files as $f){ ?>
+                                    <tr id="quotation_enquiry_file_<?=$f->id?>">
+                                       <?php
+                                          if($f->title == ''){
+                                          	$f->title = 'view';
+                                          }
+                                          ?>
+                                       <td><a href="<?=MAINSITE?>assets/uploads/student/<?=$f->name?>" target="_blank"><?=$f->title?></a></td>
+                                       <td><button class="btn btn-outline-danger btn-xs" onclick="return delEmployeeFile('<?=$f->id?>')" title="remove"><i class="fas fa-trash"></i></button></td>
+                                    </tr>
+                                    <?php } ?>
+                                    <tr>
+                                       <td colspan="2"></td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                           </div>
+                           <?php } ?>
+                        </div>
+                     </div>
+                     <div class="col-sm-6">
+                        <?php
+                           $attributes = array('class'=>'form-label');
+                           echo form_label('Status', 'status1', $attributes);
+                           echo "<label for='formFile'><span style='color:#f00;font-size: 22px;margin-top: 3px;'>*</span></label>";
+                           
+                           ?>
+                        <div class="form-group">
+                           <?php
+                              $value = set_value('status');
+                              	if(empty($value)){$value = $status;}
+                              
+                              //echo $value;
+                              $attributes = array(
+                              'name'	=> 'status',
+                              'id'	=> 'Active',
+                              'value'	=> "1",
+                              'required' => 'required',
+                              	'class'=>'label-active',
+                              "checked" => ($value == "1") ? "checked" : false
+                              );
+                              echo form_radio($attributes);?>
+                           <?php $attributes = array(); echo form_label('Active', 'Active', $attributes);?>
+                           <?php
+                              $value = set_value('status');
+                              	if(empty($value)){$value = $status;}
+                              
+                              //echo $value;
+                              $attributes = array(
+                              'name'	=> 'status',
+                              'id'	=> 'Block',
+                              'value'	=> "0",
+                              'required' => 'required',
+                              'class'=>'label-block',
+                              "checked" => ($value == "0") ? "checked" : false
+                              );
+                              echo form_radio($attributes);?>
+                           <?php $attributes = array(); echo form_label('Block', 'Block', $attributes);?>
+                           <span>
+                           <?php echo form_error('status', '<div class="error" style="color: red">', '</div>'); ?>
+                           </span>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- /.card-body -->
+               <div class="card-footer">
+                  <center>
+                     <button type="submit" name="save" onclick="return redirect_type_func('') ,Validatestudent()"  value="1" class="btn btn-info">Save</button>
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     <button type="submit" name="save-add-new" onclick="return redirect_type_func('save-add-new'),Validatestudent()" value="1" class="btn btn-default ">Save And Add New</button>
+                  </center>
+               </div>
+               <!-- /.card-footer -->
+               <?php echo form_close() ?>
+            </div>
+            <?php }else{
+               $this->data['no_access_flash_message']="You Dont Have Access To View ".$page_module_name;
+               $this->load->view('admin/template/access_denied' , $this->data);
+               } ?>
+            <!-- /.card-body -->
+         </div>
+      </div>
+</div>
+</section>
+</div>
+<aside class="control-sidebar control-sidebar-dark">
+   <!-- Control sidebar content goes here -->
+</aside>
+<script src="https://cdn.ckeditor.com/4.5.11/standard/ckeditor.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script>
+   function redirect_type_func(data)
+   {
+   	document.getElementById("redirect_type").value = data;
+   	return true;
+	ValidateLogin();
+   }
+   var append_id = 1;
+   function addNewRFQDeatilLine(id=0)
+   {
+   	append_id++;
+   	Pace.restart();
+   	$.ajax({
+   		url: "<?=MAINSITE_Admin.$user_access->class_name.'/addNewFileLine'?>",
+   		type: 'post',
+   		dataType: "json",
+   		data: { 'id':id	, 'append_id':append_id , "<?=$csrf['name']?>":"<?=$csrf['hash']?>" },
+   		success: function( response ) {
+   			$(".RFQDetailBody").append( response.template );
+   			set_qe_sub_table_count();
+   			set_qe_sub_table_remove_btn();
+   			$('.summernote').summernote({<?=_summernote_?>});
+   			$('.custom-file-input').on('change', function () {
+   				let fileName = Array.from(this.files).map(x => x.name).join(', ')
+   				$(this).siblings('.custom-file-label').addClass("selected").html(fileName);
+   			});
+   		},
+   		error: function (request, error) {
+   			toastrDefaultErrorFunc("Unknown Error. Please Try Again");
+   		}
+   	});
+   }
+   
+   
+   function set_qe_sub_table_count()
+   {
+   	var count=0;
+   	$('.qe_sub_table_count').each(function(index, value) {
+   		count++;
+   	  $(this).html(count+'.');
+   	});
+   }
+   
+   function set_qe_sub_table_remove_btn()
+   {
+   	$('.qe_sub_table_remove_td').html('');
+   	var count=0;
+   	$('.qe_sub_table_remove_td').each(function(index, value) {
+   		count++;
+   	});
+   	if(count>1)
+   	{
+   		$('.qe_sub_table_remove_td').html('<button class="btn btn-outline-danger btn-xs" onclick="remove_qe_sub_table_row($(this))" title="remove"><i class="fas fa-trash"></i></button>');
+   	}
+   }
+   function getState(country_id , id=0)
+   {
+   	$('#loader1').show();
+   	$("#state_id").html( '' );
+   	if(country_id > 0)
+   	{
+   		Pace.restart();
+   		$.ajax({
+   			url: "<?=MAINSITE_Admin.'Ajax/getState'?>",
+   			type: 'post',
+   			dataType: "json",
+   			data: {	'country_id' : country_id , 'state_id' : id , "<?=$csrf['name']?>":"<?=$csrf['hash']?>" },
+   			success: function( response ) {
+   				$("#state_id").html( response.state_html );
+   			},
+   			error: function (request, error) {
+   				toastrDefaultErrorFunc("Unknown Error. Please Try Again");
+   				$("#quick_view_model").html( 'Unknown Error. Please Try Again' );
+   			}
+   		});
+   	}
+   
+   }
+   function getCity(state_id , id=0)
+   {
+   	$('#loader1').show();
+   	$("#city_id").html( '' );
+   	if(state_id > 0)
+   	{
+   		Pace.restart();
+   		$.ajax({
+   			url: "<?=MAINSITE_Admin.'Ajax/getCity'?>",
+   			type: 'post',
+   			dataType: "json",
+   			data: {	'state_id' : state_id , 'city_id' : id },
+   			success: function( response ) {
+   				$("#city_id").html( response.city_html );
+   			},
+   			error: function (request, error) {
+   				toastrDefaultErrorFunc("Unknown Error. Please Try Again");
+   				$("#quick_view_model").html( 'Unknown Error. Please Try Again' );
+   			}
+   		});
+   	}
+   
+   }
+   function remove_qe_sub_table_row(row)
+   {
+   	row.closest('tr').remove();
+   	set_qe_sub_table_remove_btn();
+   	set_qe_sub_table_count();
+   }
+   
+   <?php if(!empty($country_id) && !empty($state_id)){ ?>
+   	window.addEventListener('load' , function(){
+   		getState(<?=$country_id?> , <?=$state_id?>)
+   		getCity(<?=$state_id?> , <?=$city_id?>)
+   
+   	})
+   <?php } ?>
+   function delEmployeeFile(admin_user_file_id)
+   	{
+   		if(parseInt(admin_user_file_id) > 0){
+   			var s = confirm('You want to delete this file?');
+   			if(s){
+   				$.ajax({
+   					url: "<?=MAINSITE_Admin.'Ajax/del_employee_file'?>",
+   					type: 'post',
+   					//dataType: "json",
+   					data: {	'admin_user_file_id' : admin_user_file_id , "<?=$csrf['name']?>":"<?=$csrf['hash']?>" },
+   					success: function( response ) {
+   						//alert(response);
+   						$("#quotation_enquiry_file_"+admin_user_file_id).hide();
+   					},
+   					error: function (request, error) {
+   						toastrDefaultErrorFunc("Unknown Error. Please Try Again");
+   					}
+   				});
+   			}
+   		}
+   
+   		return false;
+   	}
+</script>
+<script>
+     function Validatestudent() 
+    { 
+		var student_firstname = $.trim($('#student_firstname').val());
+		var father_name = $('#father_name').val();
+		var student_contact = $('#student_contact').val();
+		var student_email = $('#student_email').val();
+		var student_dob = $('#student_dob').val();
+		var show_password = $('#show_password').val();
+		var admition_session = $('#admition_session').val();
+		var subject_id = $('#subject_id').val();
+		var course_id = $('#course_id').val();
+		var roll_number = $('#roll_number').val();
+		
+		var phonepatern = /^\d{10,12}$/;
+        var emailReg = /^([a-zA-Z0-9_\.\-])+\@(([0-9a-zA-Z\-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
+		var passwordpatern = /[^\w\d]*(([0-9]+.*[A-Za-z]+.*)|[A-Za-z]+.*([0-9]+.*))/;
+    
+        var els = document.getElementsByClassName('err-bd');
+        while (els[0]) {
+            els[0].classList.remove('err-bd')
+          } 
+        if(student_firstname =='')
+        {
+            toastr.error("Please enter Student Name.");
+            $('#student_firstname').addClass("err-bd");
+            $('#student_firstname').focus();
+        }
+		else if(father_name =='')
+        {
+            toastr.error("Please enter Student Father Name.");
+            $('#father_name').addClass("err-bd");
+            $('#father_name').focus();
+        }
+        
+        else if(student_contact == ''){
+            toastr.error("Please Phone Number.");
+            $('#student_contact').addClass("err-bd");
+            $('#student_contact').focus();
+        }
+        else if(!phonepatern.test(student_contact)) {
+            toastr.error("Invalid phone number");
+            $('#student_contact').addClass("err-bd");
+            $('#student_contact').focus();
+        }
+        else if(student_email == ''){
+            toastr.error("Please enter email id.");
+            $('#student_email').addClass("err-bd");
+            $('#student_email').focus();
+        }
+        else if(!emailReg.test(student_email)) {
+            toastr.error("Invalid email id");
+            $('#student_email').addClass("err-bd");
+            $('#student_email').focus();
+        }
+		else if(student_dob == ''){
+            toastr.error("Please select dob.");
+            $('#student_dob').addClass("err-bd");
+            $('#student_dob').focus();
+        }
+		else if(show_password == ''){
+            toastr.error("Please enter password.");
+            $('#show_password').addClass("err-bd");
+            $('#show_password').focus();
+        }
+        else if(!passwordpatern.test(show_password)) {
+            toastr.error("Invalid password patern");
+            $('#show_password').addClass("err-bd");
+            $('#show_password').focus();
+        }
+		else if(admition_session == ''){
+            toastr.error("Please Select admition session.");
+            $('#admition_session').addClass("err-bd");
+            $('#admition_session').focus();
+        }
+		else if(subject_id == ''){
+            toastr.error("Please Select Subject.");
+            $('#subject_id').addClass("err-bd");
+            $('#subject_id').focus();
+        }
+		else if(course_id == ''){
+            toastr.error("Please Select Course.");
+            $('#course_id').addClass("err-bd");
+            $('#course_id').focus();
+        }
+		else if(roll_number == ''){
+            toastr.error("Please Enter Roll Number.");
+            $('#roll_number').addClass("err-bd");
+            $('#roll_number').focus();
+        }
+        else{
+            $('#ptype_list_form').submit();
+            //document.getElementById("enq_form").submit();
+            return true;
+        }
+        return false;
+    }
+    </script>
