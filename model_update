@@ -1,0 +1,81 @@
+<?php 
+class library_model extends Model
+{
+	
+	function library_model()
+	{
+		parent::Model();
+		$this->load->database();
+		$this->load->library('session');
+	}
+
+	function addTable($data = array(),$table_name) 
+	{
+    	if(empty($data) || empty($table_name)) return -1;   
+		$status = $this->db->insert($table_name, $data);if($status){$status=$this->db->insert_id();}
+		return $status;
+    }
+	
+	function updateTbl($data = array(),$table_name, $label, $id) 
+   	{
+  		if(empty($data) || empty($table_name) || empty($label) || empty($id)) return -1;  
+  		unset($data[$label]);
+  		$this->db->where(array($label => $id));
+  		$status = $this->db->update($table_name, $data);
+  		return $status;  
+	}
+	
+	function deleteTbl($table_name, $label, $id)  
+	{
+		if(empty($label) || empty($id) || empty($table_name)) return -1; 
+			$whr_clause="(".$label." = '$id')";
+			$this->db->where($whr_clause);
+			$status = $this->db->delete($table_name);
+		  return $status;  
+	}
+	
+	function updateMultipleRecord($data = array(), $category, $ids = array()) 
+	{
+   		if(empty($data) || empty($ids) || empty($category)) return -1;  
+		
+		if($category == 'master')
+		{
+			$result = '';
+			$sql_upd = "update ".$table_name;
+			foreach ($data as $key => $value) {
+  				$result .= "$key = '$value', ";
+			}
+			$result = rtrim($result,', ');
+			$sql_upd .= " set $result where cid in (".implode(',', $ids).") ";
+			$status = $this->db->query($sql_upd);
+		}	
+		
+		return $status;  
+    }
+	
+	function getList($category, $id, $num, $offset) 
+	{ 
+		$pg_content=array();
+		
+		if($category == 'master_list')
+		{
+			$this->db->select('cid, ecc_id, cour_name, cour_url, cour_phone, added_on, updated_on, status');
+			$this->db->where('ecc_id', $this->sess_ecom_ecc_id);
+			if(!empty($id))
+				$this->db->where('cid', $id);
+			if(!empty($offset) && $offset == 2)
+				$this->db->where('status', 0);
+			else if(!empty($offset)) 
+				$this->db->where('status', $offset);
+			$this->db->order_by('cid desc');
+			$query_get_list = $this->db->get($table_name);
+			if($query_get_list->num_rows() > 0 ){
+				$pg_content= $query_get_list->result();
+			}
+		}	
+		
+		return $pg_content;
+	}
+	
+}
+?>
