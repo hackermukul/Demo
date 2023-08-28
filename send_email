@@ -1,0 +1,38 @@
+$msg='fail';
+		if(!empty($_POST['name_contact_us']) && !empty($_POST['email_contact_us']) && !empty($_POST['contact_contact_us']) && !empty($_POST['course_contact_us']) ){
+			$entereddata['name']=ucwords($_POST['name_contact_us']);
+			$entereddata['email']=ucwords($_POST['email_contact_us']);
+			$entereddata['contact']=$_POST['contact_contact_us'];
+			$entereddata['course']=ucwords($_POST['course_contact_us']);
+			$entereddata['message']=ucwords($_POST['message_contact_us']);
+			
+			$entereddata['added_on']=date('Y-m-d H:i:s');
+			$insertStatus = $this->common_model->addTable($entereddata,'institute'); 
+			if($insertStatus > 0)
+			{
+				$msg='success';		
+				ini_set( 'display_errors', 1 );
+				error_reporting( E_ALL );
+				$mailMessage =''; 
+				$timezone = new DateTimeZone("Asia/Kolkata" );
+				$date = new DateTime();
+				$date->setTimezone($timezone);
+				$mailMessage .= "New inquiry posted by ".ucwords($_POST['name_contact_us'])."!". "\r\n";
+				$mailMessage .= "Name : ".ucwords($_POST['name_contact_us'])."\r\n";
+				$mailMessage .= "Email ID : ".$_POST['email_contact_us']."\r\n";
+				$mailMessage .= "Phone : ".$_POST['contact_contact_us']."\r\n";
+				$mailMessage .= "Course : ".$_POST['course_contact_us']."\r\n";
+				$mailMessage .= "Message : ".ucwords($_POST['message_contact_us'])."\r\n";
+				$from = "mukulkumarraja2000@gmail.com";
+				$to = "mukulkumarraja2000@gmail.com";
+			
+				$subject = "New Enquiry";	
+				$message = $mailMessage;
+				$headers = "From:" . $from;
+				mail($to,$subject,$message, $headers);
+				
+			}
+			REDIRECT(MAINSITE."thanks");
+		}else
+			REDIRECT(MAINSITE."test/".'/'.$msg);
+		}
