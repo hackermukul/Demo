@@ -1,0 +1,132 @@
+<html>
+   <head>
+      <title>Library Management System</title>
+      <style>
+         .container {
+         width:100%;
+         margin:auto;
+         }
+         .table {
+         width: 100%;
+         margin-bottom: 20px;
+         }	
+         .table-striped tbody > tr:nth-child(odd) > td,
+         .table-striped tbody > tr:nth-child(odd) > th {
+         background-color: #f9f9f9;
+         }
+         @media print{
+         #print {
+         display:none;
+         }
+         }
+         #print {
+         width: 90px;
+         height: 30px;
+         font-size: 18px;
+         background: white;
+         border-radius: 4px;
+         margin-left:28px;
+         cursor:hand;
+         }
+      </style>
+      <script>
+         function printPage() {
+             window.print();
+         }
+      </script>
+   </head>
+   <body>
+      <div class = "container">
+         <div id = "header">
+            <br/>
+            <img src = "<?php echo ADMIN_IMAGE?>logo.jpg" style = " margin-top:-17px; float:left; margin-left:115px; margin-bottom:-6px; width:100px; height:100px;">
+            <img src = "<?php echo ADMIN_IMAGE?>logo.jpg" style = " margin-top:-17px; float:right; margin-right:115px; width:100px; height:100px;" >
+            <center>
+               <h5 style = "font-style:Calibri"></h5>
+               &nbsp; &nbsp;&nbsp; <?php echo _project_name_ ?> &nbsp;	&nbsp; 
+            </center>
+            <center>
+               <h5 style = "font-style:Calibri; margin-top:-14px;"></h5>
+               &nbsp; &nbsp; <?php echo _meta_keywords_ ?>
+            </center>
+            <center>
+               <h5 style = "font-style:Calibri; margin-top:-14px;"></h5>
+               <?php echo _project_complete_name_ ?>
+            </center>
+            <button type="submit" id="print" onclick="printPage()">Print</button>	
+            <p style = "margin-left:30px; margin-top:50px; font-size:14pt; font-weight:bold;">Student List&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            <div align="right">
+               <b style="color:blue;">Date Prepared:</b>
+               <script>
+                  var mydate=new Date()
+                  var year=mydate.getYear()
+                  if (year < 1000)
+                  year+=1900
+                  var day=mydate.getDay()
+                  var month=mydate.getMonth()
+                  var daym=mydate.getDate()
+                  if (daym<10)
+                  daym="0"+daym
+                  var dayarray=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
+                  var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December")
+                  document.write("<font face='Arial'><b style='font-size:12px;'>"+dayarray[day]+", "+montharray[month]+" "+daym+", "+year+"</b></font>")
+               </script>        
+            </div>
+            <br/>
+            <table class="table table-striped">
+               <thead>
+                  <tr>
+                  <tr>
+                     <th>Book ID</th>
+                     <th>Name</th>
+                     
+                     <th>publisher name</th>
+                     <th>publisher</th>
+                     <th>copyright_year</th>
+                     <th>book_copies</th>
+                     <th>Subject</th>
+                     <th>book_status</th>
+                  </tr>
+                  </tr>
+               </thead>
+               <tbody>
+               	<?php if(!empty($list_data) > 0) {  foreach($list_data as $st)  { ?>
+                  <tr>
+                     <td style="text-align:center;"><?php echo $st->book_code;?></td>
+                     <td style="text-align:center;"><?php echo $st->name;?></td>
+                      
+                     <td style="text-align:center;"><?php echo $st->publisher_name;?></td>
+                     <td style="text-align:center;"><?php echo $st->publisher;?></td>
+                     <td style="text-align:center;"><?php echo $st->copyright_year;?></td>
+                     <td style="text-align:center;"><?php echo $st->book_copies;?></td>
+                     <td style="text-align:center;"><?php echo $st->subject;?></td>
+                     <td style="text-align:center;"><?php echo $st->book_status;?></td>
+                  </tr>
+                  <tr>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                  </tr>
+                  <tr>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                  </tr>
+                  <?php } unset($st); }  ?>
+               </tbody>
+            </table>
+            <br />
+            <br />
+            <h2><i class="glyphicon glyphicon-user"></i> <span style="color:blue; font-size:15px;">Prepared by:<?php echo __adminemail__ ?> </span></h2>
+         </div>
+      </div>
+   </body>
+</html>
