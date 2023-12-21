@@ -33,6 +33,15 @@ class FunctionModel {
 			  }
 			  return $pg_content;
         }
+	$this->load->library('FunctionModel');
+		$this->data['master'] =  new FunctionModel();
+		$this->data['module_master'] = $this->data['master']->getModule_details();
+	    if(isset($this->data['module_master']) &&  !empty($this->data['module_master']))
+	    {
+	    	$this->data['module_id'] = $this->data['module_master'][0]->id;
+	    	$this->data['module_table'] = $this->data['module_master'][0]->table_name;
+	    }
+
 
  
 }
